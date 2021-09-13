@@ -44,36 +44,39 @@ On the following page(s):
 - smoothed or filtered spectrum with peak annotation 
 
 ## Command-line options
+positional arguments:
+  filename              filename(s), data - data format is: frequency [space] intensity
 
-  -h --help            show this help message and exit
-  -l LAMBDA, --lambda LAMBDA
+optional arguments:
+-h, --help            show this help message and exit
+-l LAMBDA, --lambda LAMBDA
                         lambda for arPLS (baseline) correction
                         save values start from 1000, values less than 1000 giver sharper peaks,
                         but broader peaks will become part of the baseline
                         check output
-  -p WINDOWLENGTH : POLYORDER, --wp WINDOWLENGTH : POLYORDER
+-p WINDOWLENGTH : POLYORDER, --wp WINDOWLENGTH : POLYORDER
                         window length and polynomial order for the Savitzky–Golay filter (smoothing)
                         window length must be a positive odd number and window length > polynomial order
-  -xmin XMIN, --xmin XMIN
+-xmin XMIN, --xmin XMIN
                         start spectra at xmin wave numbers
                         take care of the collected data range
                         xmax must be greater than xmin and xmin and xmax should not be equal or to close together
-  -xmax XMAX, --xmax XMAX
+-xmax XMAX, --xmax XMAX
                         end spectra at xmax wave numbers
                         take care of the collected data range
                         xmax must be greater than xmin and xmin and xmax should not be equal or to close together
-  -t THRESHOLD, --threshold THRESHOLD
+-t THRESHOLD, --threshold THRESHOLD
                         threshold for peak detection
                         only peaks with intensities equal or above t will be printed
-  -m MULTIPLY, --multiply MULTIPLY
+-m MULTIPLY, --multiply MULTIPLY
                         multiply intensities with m
-  -a ADD, --add ADD     add or subtract a to wave numbers
+-a ADD, --add ADD     add or subtract a to wave numbers
                         take care of the collected data range and -xmin and -xmax options
-  -i INTENSITIES, --intensities INTENSITIES
+-i INTENSITIES, --intensities INTENSITIES
                         add or subtract i to intensities
                         take care of peak detection
-  -n, --nosave          do not save summary.pdf
-  -s P(NG), D(AT), --save P(NG), D(AT)
+-n, --nosave          do not save summary.pdf
+-s P(NG), D(AT), --save P(NG), D(AT)
                         save PNG and DAT files of every spectra including summary.png
                         DAT data are baseline corrected and filtered
                         xmin and xmax are active

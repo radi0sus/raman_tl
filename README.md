@@ -61,4 +61,6 @@ On the following page(s):
 ```console
 python3 raman-tl.py s*.txt
 ```
-[summary](/exmamples/summary.png)
+[summary](/examples/summary.png)
+[sample A](/examples/sample-A.png)
+[sample A](/examples/sample-B.png)

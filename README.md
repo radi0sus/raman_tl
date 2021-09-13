@@ -56,3 +56,9 @@ On the following page(s):
 - `-n` , optional: do not save `summary.pdf`
 - `-s p,d` , optional: save P(NG) and / or D(ATA) files. The filenames are `filename.png` and /or `filename-mod.dat`. Data files in the format `wavenumber [delimiter] intensity`. The delimiter can be set in the script. The default delimiter ist [space].
 
+## Examples
+
+```console
+python3 raman-tl.py s*.txt
+```
+

@@ -83,6 +83,6 @@ Summary:
 
 <img src="/examples/summary-3.png" width=600>
 
-Single spectra:
+Single spectrum:
 
 <img src="/examples/sample-A-3.png" width=600>

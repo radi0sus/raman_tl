@@ -1,5 +1,5 @@
 # raman-tl.py
-A Python 3 script for baseline correction, smoothing, processing and plotting of Raman spectra. Data must be in the format `wavenumber [space] intensity`. The baseline correction uses the asymmetrically reweighted penalized least squares smoothing algorithm (arPLS). The [Savitzky–Golay](https://en.wikipedia.org/wiki/Savitzky–Golay_filter) filter is applied for smoothing. Data of the processed spectra can be saved as "csv"-like data files in the format `wavenumber [delimiter] intensity`. Plots can be saved as PNG bitmap files and as PDF.
+A Python 3 script for baseline correction, smoothing, processing and plotting of Raman spectra. Data must be in the format `wavenumber [space] intensity`. The baseline correction uses the *asymmetrically reweighted penalized least squares smoothing algorithm* (arPLS). The [Savitzky–Golay](https://en.wikipedia.org/wiki/Savitzky–Golay_filter) filter is applied for smoothing. Data of the processed spectra can be saved as "csv"-like data files in the format `wavenumber [delimiter] intensity`. Plots can be saved as PNG bitmap files and as PDF.
 
 If you use the arPLS algorithm to process your spectra, please cite:
 

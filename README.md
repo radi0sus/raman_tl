@@ -45,17 +45,4 @@ On the following page(s):
 
 ## Command-line options
 positional arguments:
-  filename              filename(s), data - data format is: frequency [space] intensity
 
-optional arguments:
-- h, --help       
-- l LAMBDA
-- p WINDOWLENGTH : POLYORDER
-- xmin XMIN
-- xmax XMAX
-- t THRESHOLD
-- m MULTIPLY
-- a ADD
-- i INTENSITIES
-- n
-- s P(NG), D(AT)

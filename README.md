@@ -61,9 +61,9 @@ On the following page(s):
 ```console
 python3 raman-tl.py s*.txt
 ```
-<img src="/examples/summary.png" width=400>
-<img src="/examples/sample-A.png" width=400>
-<img src="/examples/sample-B.png" width=400>
+<img src="/examples/summary.png" width=600>
+<img src="/examples/sample-A.png" width=600>
+<img src="/examples/sample-B.png" width=600>
 
 ![summary](/examples/summary.png)
 ![sample A](/examples/sample-A.png)

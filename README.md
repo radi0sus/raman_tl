@@ -49,7 +49,7 @@ On the following page(s):
 - `-p` `N:M`, optional: window length and polynomial order of the Savitzky–Golay filter (default is `N = 5, M = 3`)
 - `-xmin` `N` , optional: start spectra at `N` wave numbers
 - `-xmax` `N` , optional: end spectra at `N` wave numbers
-- `-t` `N` , optional: threshold for peak detection (default is 5% from the maximum intensity)
+- `-t` `N` , optional: threshold for peak detection, with `N` being the intensity (default is 5% from the maximum intensity)
 - `-m` `N` , optional: multiply intensities with `N` (default is `N = 1`)
 - `-a` `N` , optional: add or subtract `N` to / from wave numbers (default is `N = 0`)
 - `-i` `N` , optional: add or subtract `N` to / from intensities (default is `N = 0`)

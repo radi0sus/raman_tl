@@ -63,7 +63,7 @@ On the following page(s):
 ```console
 python3 raman-tl.py s*.txt
 ```
-Process all files starting with s and the extension .txt.
+Process all files starting with `s` and the extension `.txt`.
 
 Summary:
 

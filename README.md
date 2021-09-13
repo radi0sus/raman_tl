@@ -58,6 +58,7 @@ On the following page(s):
 
 ## Examples
 
+### Example 1
 ```console
 python3 raman-tl.py s*.txt
 ```
@@ -72,6 +73,7 @@ Single spectra:
 <img src="/examples/sample-A.png" width=600>
 <img src="/examples/sample-B.png" width=600>
 
+### Example 2
 ```console
 python3 raman-tl.py sample-A.txt -l10000 -p7:4 -xmin 600 -xmax 800 -t50 -spd 
 ```

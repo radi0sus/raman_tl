@@ -54,5 +54,5 @@ On the following page(s):
 - `-a` `N` , optional: add or subtract `N` to / from wave numbers (default is `N = 0`)
 - `-i` `N` , optional: add or subtract `N` to / from intensities (default is `N = 0`)
 - `-n` , optional: do not save `summary.pdf`
-- `-s P,D` , optional: save P(NG) and / or D(ATA) files. The filenames are `filename.png` and /or `filename-mod.dat`. Data files in the format `wavenumber [delimiter] intensity` 
+- `-s P,D` , optional: save P(NG) and / or D(ATA) files. The filenames are `filename.png` and /or `filename-mod.dat`. Data files in the format `wavenumber [delimiter] intensity` (delimiter can be set in the script) 
 

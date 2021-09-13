@@ -44,5 +44,15 @@ On the following page(s):
 - smoothed or filtered spectrum with peak annotation 
 
 ## Command-line options
-positional arguments:
+- `filename` , required: filename(s), input file(s) in in the format `wavenumber [space] intensity`
+- `-l` `N`, optional: the lambda parameter for the arPLS algorithm (default is `N = 1000`)
+- `-p` `N:M`, optional: window length and polynomial order of the Savitzky–Golay filter (default is `N = 5, M = 3`)
+- `-xmin` `N` , optional: start spectra at `N` wave numbers
+- `-xmax` `N` , optional: end spectra at `N` wave numbers
+- `-t` `N` , optional: threshold for peak detection (default is 5% from the maximum intensity)
+- `-m` `N` , optional: multiply intensities with `N` (default is `N = 1`)
+- `-a` `N` , optional: add or subtract `N` to / from wave numbers (default is `N = 0`)
+- `-i` `N` , optional: add or subtract `N` to / from intensities (default is `N = 0`)
+- `-n` , optional: do not save `summary.pdf`
+- `-s P,D` , optional: save P(NG) and / or D(ATA) files. 
 

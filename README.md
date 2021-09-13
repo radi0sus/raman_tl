@@ -41,4 +41,6 @@ On the first page:
 - smoothed spectrum with peak annotation 
 
 On the following page(s):
-- smoothed spectrum with peak annotation 
+- smoothed or filtered spectrum with peak annotation 
+
+## Command-line options

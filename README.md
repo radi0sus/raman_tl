@@ -6,9 +6,9 @@ If you use the arPLS algorithm to process your spectra, please cite:
 > "Baseline correction using asymmetrically reweighted penalized least squares smoothing"
 > 
 > Sung-June Baek, Aaron Park, Young-Jin Ahna, Jaebum Choo  
-> Analyst, 2015,140, 250-257
+> *Analyst*, **2015**, *140*, 250-257
 > 
-> DOI	https://doi.org/10.1039/C4AN01061B
+> DOI:	https://doi.org/10.1039/C4AN01061B
 
 
 

@@ -32,6 +32,7 @@ Under Windows you have to open `PowerShell` first and start the script with:
 ```console
 python raman-tl.py (Get-ChildItem *.txt -Name)
 ```
+to process all files with the extension  `.txt` in the folder.
 
 In all cases a file `summary.pdf` will be created which contains the following plots:
 

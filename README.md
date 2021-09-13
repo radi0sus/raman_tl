@@ -38,7 +38,7 @@ In all cases a file `summary.pdf` will be created which contains the following p
 |---------------|----------------|------------------|
 |raw spectrum 1 | raw spectrum 2 | raw spectrum ... |
 |baseline (red) |baseline (red)  | baseline (red)   |
-|---------------------------------------------------|
+|---------------|----------------|------------------|
 |baseline       | baseline       | baseline         |
 |corrected      | corrected      | corrected        |
 |spectrum 1     | spectrum 2     | spectrum ...     |

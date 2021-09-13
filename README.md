@@ -62,8 +62,11 @@ On the following page(s):
 python3 raman-tl.py s*.txt
 ```
 Summary:
+
 <img src="/examples/summary.png" width=600>
+
 Single spectra:
+
 <img src="/examples/sample-A.png" width=600>
 <img src="/examples/sample-B.png" width=600>
 

@@ -35,15 +35,15 @@ python raman-tl.py (Get-ChildItem *.txt -Name)
 
 In all cases a file `summary.pdf` will be created which contains the following plots:
 
-+++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++|++++++++++++++++|++++++++++++++++++
 raw spectrum 1 | raw spectrum 2 | raw spectrum ...
 baseline (red) |baseline (red)  | baseline (red)
 +++++++++++++++++++++++++++++++++++++++++++++++++++
 baseline       | baseline       | baseline   
 corrected      | corrected      | corrected
 spectrum 1     | spectrum 2     | spectrum ...
-+++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++|++++++++++++++++|++++++++++++++++++
 smoothed       | smoothed       | smoothed
 spectrum 1 with| spectrum 2 with| spectrum ... with         
 peak annotation| peak annotation| peak annotation
-+++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++|++++++++++++++++|++++++++++++++++++

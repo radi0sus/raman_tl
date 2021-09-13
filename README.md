@@ -61,6 +61,8 @@ On the following page(s):
 ```console
 python3 raman-tl.py s*.txt
 ```
+c
+
 Summary:
 
 <img src="/examples/summary.png" width=600>
@@ -70,3 +72,7 @@ Single spectra:
 <img src="/examples/sample-A.png" width=600>
 <img src="/examples/sample-B.png" width=600>
 
+```console
+python3 raman-tl.py sample-A.txt -l10000 -p7:4 -xmin 600 -xmax 800 -spd 
+```
+Process spectrum sample-A.txt with lambda = 10000 (baseline parameter), window length = 7 and polynomial order = 4 (smoothing parameters) in the range from xmin = 600 to xmax = 800 cm^-1^ and save the PNG and DATA files (-spd).

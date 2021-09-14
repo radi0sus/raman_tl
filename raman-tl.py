@@ -7,13 +7,12 @@ Sung-June Baek, Aaron Park, Young-Jin Ahna, Jaebum Choo
 Analyst, 2015,140, 250-257
 DOI	https://doi.org/10.1039/C4AN01061B
 
-# python adaption based on the code from:
+# python adaption based on the code example from:
 https://stackoverflow.com/questions/29156532/python-baseline-correction-library
 Daniel Casas-Orozco
 
 # open more than one datat set under windows: 
 open powershell: baseline.py (Get-ChildItem *.txt -Name)
-
 
 '''
 
@@ -105,7 +104,7 @@ parser.add_argument('-l','--lambda',
     metavar='LAMBDA',
     default=1000,
     help='lambda for arPLS (baseline) correction\n' +
-         'save values start from 1000 '+ 
+         'save values start from 1000, '+ 
          'values less than 1000 giver sharper peaks,\n' + 
          'but broader peaks will become part of the baseline\n' + 
          'check output')
@@ -167,7 +166,7 @@ parser.add_argument('-n','--nosave',
 #save spectra and / or modified data 
 parser.add_argument('-s','--save',
     type=str,
-    metavar=('P(NG), D(AT)'),
+    metavar=('p[ng], d[at]'),
     help='save PNG and DAT files of every spectra including summary.png\n'+
          'DAT data are baseline corrected and filtered\n' + 
          'xmin and xmax are active')
@@ -181,7 +180,6 @@ lam = args.lambda_
 #window-length and poly-order for the Savitzky–Golay filter
 #delimiter changed to ":" because of win10 issues
 if args.wp:
-    print(args.wp)  
     wl = int(args.wp.split(':')[0])
     po = int(args.wp.split(':')[1])
 

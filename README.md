@@ -58,12 +58,13 @@ On the following page(s):
 - `-s p,d` , optional: save P(NG) and / or D(ATA) files. The filenames are `filename.png` and / or `filename-mod.dat`. Data files in the format `wavenumber [delimiter] intensity`. The delimiter can be set in the script. The default delimiter ist [space].
 
 ## Remarks
-- The save area for `lambda` starts from 1000. Smaller values will give sharper peaks but broader peaks become part of the baseline. Check the red baseline curve in the summary page.
+- The save values for `lambda` start from 1000. Smaller values will give sharper peaks but broader peaks become part of the baseline. Check the red baseline curve in the summary page.
 - There is no way to turn off the smoothing filter directly, but with two parameter close together, e.g. `-p3:2`, filtering is ineffective. 
 - `xmin` and or `xmax` values outside the experimental wave number range will result in errors or strange outputs.
 - `-a` changes the range for `xmin` and `xmax`
 - `-i` and `-m` change the range for  `-t` 
-- 
+- The  `.dat` file contains the data of the processed spectrum in the given range as it is shown in the last plot.
+- The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
 
 ## Examples
 

@@ -29,12 +29,12 @@ from scipy.special import expit                         #for arPLS
 from scipy.signal import savgol_filter                  #Savitzky–Golay filter 
 from matplotlib.backends.backend_pdf import PdfPages    #save summary as PDF
 
-
 # global constants
 lam = 1000                                  #lamda for the arPLS baseline correction
 wl = 5                                      #window length for the Savitzky–Golay filter (filtering /smoothing)
 po = 3                                      #polynomal order the Savitzky–Golay filter (filtering /smoothing)
 intensities = 0                             #add 0 to intensities
+auto_threshold = 0                          #check if auto threshold is active 
 
 # plot and data output config section 
 y_label = "intensity"                       #label of y-axis 
@@ -237,7 +237,7 @@ if multiply:
 
 #add or subtract x to wave numbers if argument is given
 if add:
-    print('Warning. This can change your results completely. Use this option with extra care.')
+    print('Warning. The -a option can change your results completely. Use it with extra care.')
     for key in freqdict.keys():
         freqdict[key]=add_x_to_freq(freqdict[key],add)
 
@@ -300,12 +300,13 @@ if len(freqdict) == 1:
         ax[2].set_xlabel(x_label)
         
         #peak detection threshold
-        if threshold:
+        if threshold != None and auto_threshold == 0:
             threshold=abs(threshold)
         else:
             #auto threshold
+            auto_threshold=1
             try:   
-                threshold=max(spec_savgol[xmin_index:xmax_index])*0.05
+                threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*0.05
             except ValueError:
                 print('Warning! xmin or xmax are out of range or (almost) equal.')
         
@@ -384,12 +385,14 @@ else:
         ax[1,0].set_ylabel(y_label)
         ax[2,0].set_ylabel(y_label)
         
-        if threshold:
+        #peak detection threshold
+        if threshold != None and auto_threshold == 0:
             threshold=abs(threshold)
         else:
             #auto threshold
+            auto_threshold=1
             try:   
-                threshold=max(spec_savgol[xmin_index:xmax_index])*0.05
+                threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*0.05
             except ValueError:
                 print('Warning! xmin or xmax are out of range or (almost) equal.')
         
@@ -455,12 +458,14 @@ for counter, key in enumerate(freqdict.keys()):
     ax.set_ylabel(y_label)
     ax.set_title(key)
     
-    if threshold:
+    #peak detection threshold
+    if threshold != None and auto_threshold == 0:
         threshold=abs(threshold)
     else:
         #auto threshold
+        auto_threshold=1
         try:   
-            threshold=max(spec_savgol[xmin_index:xmax_index])*0.05
+            threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*0.05
         except ValueError:
             print('Warning! xmin or xmax are out of range or (almost) equal.')
     

@@ -60,6 +60,7 @@ On the following page(s):
 ## Remarks
 - The save values for `lambda` start from 1000. Smaller values will give sharper peaks, but broader peaks become part of the baseline. Check the red baseline curve in the summary page.
 - There is no way to turn off the smoothing filter directly, but with two parameters close together, e.g. `-p3:2`, filtering is ineffective. 
+- Polynomial based filters, such as the Savitzky–Golay filter, sometimes tend to overshoot in negative regions, especially with sharp signals in the Raman spectrum. Reduce the filtering (see above) is one way to solve this problem. 
 - `xmin` and or `xmax` values outside the experimental wave number range will result in errors or strange outputs.
 - `-a` changes the range for `xmin` and `xmax`
 - `-i` and `-m` change the range for  `-t` 

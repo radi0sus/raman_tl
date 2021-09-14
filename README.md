@@ -68,6 +68,7 @@ On the following page(s):
 - The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
 
 ## Examples
+![show](/examples/show-use.gif)
 
 ### Example 1
 ```console

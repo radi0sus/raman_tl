@@ -30,11 +30,15 @@ from scipy.signal import savgol_filter                  #Savitzky–Golay filter
 from matplotlib.backends.backend_pdf import PdfPages    #save summary as PDF
 
 # global constants
-lam = 1000                                  #lamda for the arPLS baseline correction
 wl = 5                                      #window length for the Savitzky–Golay filter (filtering /smoothing)
 po = 3                                      #polynomal order the Savitzky–Golay filter (filtering /smoothing)
 intensities = 0                             #add 0 to intensities
-auto_threshold = 0                          #check if auto threshold is active 
+auto_threshold = 0                          #check if auto threshold was activated
+threshold_factor = 0.05                     #threshold factor for auto peak detection
+peak_distance = 8                           #peak distance for peak detection
+arpls_ratio = 1e-6                          #ratio for arPLS
+lam = 1000                                  #lamda for the arPLS baseline correction
+n_iter = 200                                #number of iterations for arPLS
 
 # plot and data output config section 
 y_label = "intensity"                       #label of y-axis 
@@ -51,7 +55,7 @@ freqdict=dict()                             #frequencies all spectra
 intensdict=dict()                           #intensities all spectra
 
 # arPLS baseline correction
-def baseline_arPLS(y, ratio=1e-6, lam=10000, niter=200):
+def baseline_arPLS(y, ratio=arpls_ratio, lam=lam, niter=n_iter):
     L = len(y)    
     diag = np.ones(L - 2)
     D = sparse.spdiags([diag, -2*diag, diag], [0, -1, -2], L, L - 2)    
@@ -306,12 +310,12 @@ if len(freqdict) == 1:
             #auto threshold
             auto_threshold=1
             try:   
-                threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*0.05
+                threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*threshold_factor
             except ValueError:
                 print('Warning! xmin or xmax are out of range or (almost) equal.')
         
         #peak detection
-        peaks , _ = find_peaks(spec_savgol[xmin_index:xmax_index],height=threshold,distance=8)
+        peaks , _ = find_peaks(spec_savgol[xmin_index:xmax_index],height=threshold,distance=peak_distance)
         peakz = [freqdict[key][xmin_index:xmax_index][peak] for peak in peaks]
         
         #label peaks
@@ -392,12 +396,12 @@ else:
             #auto threshold
             auto_threshold=1
             try:   
-                threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*0.05
+                threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*threshold_factor
             except ValueError:
                 print('Warning! xmin or xmax are out of range or (almost) equal.')
         
         #peak detection
-        peaks , _ = find_peaks(spec_savgol[xmin_index:xmax_index],height=threshold,distance=8)
+        peaks , _ = find_peaks(spec_savgol[xmin_index:xmax_index],height=threshold,distance=peak_distance)
         peakz = [freqdict[key][xmin_index:xmax_index][peak] for peak in peaks]
         
         #label peaks
@@ -465,11 +469,12 @@ for counter, key in enumerate(freqdict.keys()):
         #auto threshold
         auto_threshold=1
         try:   
-            threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*0.05
+            threshold=(max(spec_savgol[xmin_index:xmax_index])
+                +abs(min(spec_savgol[xmin_index:xmax_index])))*threshold_factor
         except ValueError:
             print('Warning! xmin or xmax are out of range or (almost) equal.')
     
-    peaks , _ = find_peaks(spec_savgol[xmin_index:xmax_index],height=threshold,distance=4)
+    peaks , _ = find_peaks(spec_savgol[xmin_index:xmax_index],height=threshold,distance=peak_distance)
     peakz = [freqdict[key][xmin_index:xmax_index][peak] for peak in peaks]
     
     for index, txt in enumerate(peakz):

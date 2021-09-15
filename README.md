@@ -39,10 +39,10 @@ In all cases a file `summary.pdf` will be created which contains the following p
 On the first page:
 - raw spectrum with baseline plot (red)
 - baseline corrected spectrum
-- smoothed spectrum with peak annotation 
+- smoothed / filtered spectrum with peak annotation 
 
 On the following page(s):
-- smoothed or filtered spectrum with peak annotation 
+- smoothed / filtered spectrum with peak annotation 
 
 ## Command-line options
 - `filename` , required: filename(s), input file(s) in the format `wavenumber [space] intensity`

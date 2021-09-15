@@ -69,13 +69,13 @@ On the following page(s):
 - The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
 
 ## Examples
+![show](/examples/show-use3.gif)
+
 Remeber, under Windows, you have to open `PowerShell` first and start the script with:
 ```console
 python raman-tl.py (Get-ChildItem *.txt -Name)
 ```
 to open more than one file at once.
-
-![show](/examples/show-use3.gif)
 
 ### Example 1
 ```console

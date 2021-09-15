@@ -71,7 +71,7 @@ On the following page(s):
 ## Examples
 ![show](/examples/show-use3.gif)
 
-Remeber, under Windows, you have to open `PowerShell` first and start the script with:
+Remember, under Windows you have to open `PowerShell` first and start the script with:
 ```console
 python raman-tl.py (Get-ChildItem *.txt -Name)
 ```

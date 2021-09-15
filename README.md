@@ -78,12 +78,12 @@ Process all files starting with `s` and the extension `.txt`.
 
 Summary:
 
-<img src="/examples/summary.png" width=600>
+<img src="/examples/summary2.png" width=600>
 
 Single spectra:
 
 <img src="/examples/sample-A.png" width=600>
-<img src="/examples/sample-B.png" width=600>
+<img src="/examples/sample-B2.png" width=600>
 
 ### Example 2
 ```console

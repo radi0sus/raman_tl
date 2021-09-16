@@ -17,6 +17,12 @@ Paul H. C. Eilers
 Anal. Chem. 2003, 75, 3631-3636
 DOI https://doi.org/10.1021/ac034173t
 
+# Whittaker paper 
+"On a new method of gradutation"
+E. T. Whittaker
+Proceedings of the Edinburgh Mathematical Society 1922, 41, 63-75
+DOI: https://doi.org/10.1017/S0013091500077853
+
 # open more than one datat set under windows: 
 open powershell: baseline.py (Get-ChildItem *.txt -Name)
 
@@ -139,7 +145,7 @@ parser.add_argument('-p','--wp',
 
 #parameter for Whittaker filter
 parser.add_argument('-w','--whittaker',
-    type=int,
+    type=float,
     default=1,
     help='lamda parameter for the Whittaker  filter (smoothing)') 
 

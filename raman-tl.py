@@ -4,7 +4,7 @@
 # for arPLS baseline correction, please cite:
 "Baseline correction using asymmetrically reweighted penalized least squares smoothing"
 Sung-June Baek, Aaron Park, Young-Jin Ahna, Jaebum Choo  
-Analyst, 2015,140, 250-257
+Analyst 2015, 140, 250-257
 DOI	https://doi.org/10.1039/C4AN01061B
 
 # python adaption based on the code example from:
@@ -13,6 +13,12 @@ Daniel Casas-Orozco
 
 # open more than one datat set under windows: 
 open powershell: baseline.py (Get-ChildItem *.txt -Name)
+
+# Whittaker filter / smoothing adapted from several sources based on:
+"A perfect smoother"
+Paul H. C. Eilers 
+Anal. Chem. 2003, 75, 3631-3636
+DOI https://doi.org/10.1021/ac034173t
 
 '''
 
@@ -30,8 +36,8 @@ from scipy.signal import savgol_filter                  #Savitzky–Golay filter
 from matplotlib.backends.backend_pdf import PdfPages    #save summary as PDF
 
 # global constants
-wl = 5                                      #window length for the Savitzky–Golay filter (filtering /smoothing)
-po = 3                                      #polynomal order the Savitzky–Golay filter (filtering /smoothing)
+#wl = 5                                     #window length for the Savitzky–Golay filter (filtering /smoothing)
+#po = 3                                     #polynomal order the Savitzky–Golay filter (filtering /smoothing)
 intensities = 0                             #add 0 to intensities
 auto_threshold = 0                          #check if auto threshold was activated
 threshold_factor = 0.05                     #threshold factor for auto peak detection
@@ -79,6 +85,15 @@ def baseline_arPLS(y, ratio=arpls_ratio, lam=lam, niter=n_iter):
             break
     return z
 
+#Whittaker filter (smoothing)
+def whittaker(y,lmd = 2, d = 2):
+    L = len(y)
+    E = sparse.csc_matrix(np.diff(np.eye(L), d))
+    W = sparse.spdiags(np.ones(L), 0, L, L)
+    Z = W + lmd * E.dot(E.transpose())
+    z = sparse.linalg.spsolve(Z, np.ones(L)*y)
+    return z
+
 #add +x or subtract -x wave numbers to spectrum
 def add_x_to_freq(freqlist,x):
     return np.add(freqlist,x).tolist()
@@ -117,9 +132,17 @@ parser.add_argument('-l','--lambda',
 parser.add_argument('-p','--wp',
     type=str,
     metavar=('WINDOWLENGTH : POLYORDER'),
-    help='window length and polynomial order for the Savitzky–Golay filter (smoothing)\n'+ 
+    help='activates the Savitzky–Golay filter (smoothing)\n'+ 
+         'window length and polynomial order for the Savitzky–Golay filter (smoothing)\n'+ 
          'window length must be a positive odd number and ' +
          'window length > polynomial order')
+
+#parameter for Whittaker filter
+parser.add_argument('-w','--whittaker',
+    type=int,
+    default=1,
+    help='lamda parameter for the Whittaker  filter (smoothing)') 
+
 
 #start spectra at xmin
 parser.add_argument('-xmin','--xmin',
@@ -187,6 +210,8 @@ if args.wp:
     wl = int(args.wp.split(':')[0])
     po = int(args.wp.split(':')[1])
 
+#lamda for Whittaker filter / smoothing
+whittaker_lmd = args.whittaker
 
 #xmin and xmax for spectra
 xmin = args.xmin
@@ -287,11 +312,21 @@ if len(freqdict) == 1:
         #plot baseline corrected spectrum - take care of xmin & xmax - in summary plot
         ax[1].plot(freqdict[key][xmin_index:xmax_index],spec_baseline_corr[xmin_index:xmax_index],color='black',linewidth=1,
             label='baseline corrected data\n'+ r'$\lambda$ = ' + str(lam))
-        #filter baseline corrected spectrum, savgol parameters wl & po
-        spec_savgol=savgol_filter(spec_baseline_corr,wl,po)
+        
+        #filter baseline corrected spectrum, savgol parameters wl & po or whittaker lambda
+        if args.wp:
+            spec_filtered=savgol_filter(spec_baseline_corr,wl,po)
+            lbl = 'Savitzky-Golay\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
+        elif args.whittaker:
+            spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
+            lbl = 'Whittaker\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
+        else:
+            spec_filtered=whittaker(spec_baseline_corr,lmd=1)
+            lbl = 'Whittaker\n' + r'$\lambda$ = 1'
+            
         #plot baseline corrected, filtered spectrum - take care of xmin & xmax
-        ax[2].plot(freqdict[key][xmin_index:xmax_index],spec_savgol[xmin_index:xmax_index],color='black',linewidth=1,
-            label='filtered data\n' + 'window-length = '+ str(wl) + "\npoly-order = " + str (po))
+        ax[2].plot(freqdict[key][xmin_index:xmax_index],spec_filtered[xmin_index:xmax_index],color='black',linewidth=1,
+            label=lbl)
         
         #spectrum title, legend and labels
         ax[0].set_title(" ".join(freqdict.keys()))
@@ -310,22 +345,22 @@ if len(freqdict) == 1:
             #auto threshold
             auto_threshold=1
             try:   
-                threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*threshold_factor
+                threshold=(max(spec_filtered[xmin_index:xmax_index])+abs(min(spec_filtered[xmin_index:xmax_index])))*threshold_factor
             except ValueError:
                 print('Warning! xmin or xmax are out of range or (almost) equal.')
         
         #peak detection
-        peaks , _ = find_peaks(spec_savgol[xmin_index:xmax_index],height=threshold,distance=peak_distance)
+        peaks , _ = find_peaks(spec_filtered[xmin_index:xmax_index],height=threshold,distance=peak_distance)
         peakz = [freqdict[key][xmin_index:xmax_index][peak] for peak in peaks]
         
         #label peaks
         for index, txt in enumerate(peakz):
-            ax[2].annotate(int(np.round(txt)),xy=(txt,spec_savgol[xmin_index:xmax_index][peaks[index]]),ha="center",rotation=90,size=6,
+            ax[2].annotate(int(np.round(txt)),xy=(txt,spec_filtered[xmin_index:xmax_index][peaks[index]]),ha="center",rotation=90,size=6,
                 xytext=(0,5), textcoords='offset points')
         try:    
             #auto y range
-            ymax=max(spec_savgol[xmin_index:xmax_index])
-            ymin=min(spec_savgol[xmin_index:xmax_index])
+            ymax=max(spec_filtered[xmin_index:xmax_index])
+            ymin=min(spec_filtered[xmin_index:xmax_index])
             ax[2].set_ylim(ymin-ymax*0.05,ymax+ymax*0.15)
         except ValueError:
             print('Warning! xmin or xmax are out of range or (almost) equal.')
@@ -374,11 +409,22 @@ else:
         #plot baseline corrected spectrum - take care of xmin & xmax - in summary plot
         ax[1,counter].plot(freqdict[key][xmin_index:xmax_index],spec_baseline_corr[xmin_index:xmax_index],color='black',linewidth=1,
             label='baseline corrected data\n'+ r'$\lambda$ = ' + str(lam))
-        #filter baseline corrected spectrum, savgol parameters wl & po
-        spec_savgol=savgol_filter(spec_baseline_corr,wl,po)
+    
+        #filter baseline corrected spectrum, savgol parameters wl & po or whittaker lambda
+        if args.wp:
+            spec_filtered=savgol_filter(spec_baseline_corr,wl,po)
+            lbl = 'Savitzky-Golay\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
+        elif args.whittaker:
+            spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
+            lbl = 'Whittaker\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
+        else:
+            spec_filtered=whittaker(spec_baseline_corr,lmd=1)
+            lbl = 'Whittaker\n' + r'$\lambda$ = 1'
+        
+    
         #plot baseline corrected, filtered spectrum - take care of xmin & xmax
-        ax[2,counter].plot(freqdict[key][xmin_index:xmax_index],spec_savgol[xmin_index:xmax_index],color='black',linewidth=1,
-            label='filtered data\n' + 'window-length = '+ str(wl) + "\npoly-order = " + str (po))
+        ax[2,counter].plot(freqdict[key][xmin_index:xmax_index],spec_filtered[xmin_index:xmax_index],color='black',linewidth=1,
+            label=lbl)
         
         #spectrum title, legend and labels
         ax[0,counter].legend(loc='upper left',fontsize='8')
@@ -396,23 +442,23 @@ else:
             #auto threshold
             auto_threshold=1
             try:   
-                threshold=(max(spec_savgol[xmin_index:xmax_index])+abs(min(spec_savgol[xmin_index:xmax_index])))*threshold_factor
+                threshold=(max(spec_filtered[xmin_index:xmax_index])+abs(min(spec_filtered[xmin_index:xmax_index])))*threshold_factor
             except ValueError:
                 print('Warning! xmin or xmax are out of range or (almost) equal.')
         
         #peak detection
-        peaks , _ = find_peaks(spec_savgol[xmin_index:xmax_index],height=threshold,distance=peak_distance)
+        peaks , _ = find_peaks(spec_filtered[xmin_index:xmax_index],height=threshold,distance=peak_distance)
         peakz = [freqdict[key][xmin_index:xmax_index][peak] for peak in peaks]
         
         #label peaks
         for index, txt in enumerate(peakz):
-            ax[2,counter].annotate(int(np.round(txt)),xy=(txt,spec_savgol[xmin_index:xmax_index][peaks[index]]),ha="center",rotation=90,size=6,
+            ax[2,counter].annotate(int(np.round(txt)),xy=(txt,spec_filtered[xmin_index:xmax_index][peaks[index]]),ha="center",rotation=90,size=6,
                 xytext=(0,5), textcoords='offset points')
         
         try:
             #auto y range
-            ymax=max(spec_savgol[xmin_index:xmax_index])
-            ymin=min(spec_savgol[xmin_index:xmax_index])
+            ymax=max(spec_filtered[xmin_index:xmax_index])
+            ymin=min(spec_filtered[xmin_index:xmax_index])
             ax[2,counter].set_ylim(ymin-ymax*0.05,ymax+ymax*0.15)
         except ValueError:
             print('Warning! xmin or xmax are out of range or (almost) equal.')
@@ -436,7 +482,6 @@ if save_plots_png:
 #show the summary plot
 plt.show()
 
-
 for counter, key in enumerate(freqdict.keys()):
     #same as above, but for single spectra and saving data 
     fig, ax = plt.subplots()
@@ -455,9 +500,19 @@ for counter, key in enumerate(freqdict.keys()):
     if args.intensities:
         spec_baseline_corr = add_y_to_intens(spec_baseline_corr, args.intensities)
     
-    spec_savgol=savgol_filter(spec_baseline_corr,wl,po)
-    ax.plot(freqdict[key][xmin_index:xmax_index],spec_savgol[xmin_index:xmax_index],color='black',linewidth=1,
-        label='filtered data\n' + 'window-length = '+ str(wl) + "\npoly-order = " + str (po))
+    #filter baseline corrected spectrum, savgol parameters wl & po or whittaker lambda
+    if args.wp:
+        spec_filtered=savgol_filter(spec_baseline_corr,wl,po)
+        lbl = 'Savitzky-Golay\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
+    elif args.whittaker:
+        spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
+        lbl = 'Whittaker\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
+    else:
+        spec_filtered=whittaker(spec_baseline_corr,lmd=1)
+        lbl = 'Whittaker\n' + r'$\lambda$ = 1'
+    
+    ax.plot(freqdict[key][xmin_index:xmax_index],spec_filtered[xmin_index:xmax_index],color='black',linewidth=1,
+        label=lbl)
     ax.set_xlabel(x_label)
     ax.set_ylabel(y_label)
     ax.set_title(key)
@@ -469,21 +524,21 @@ for counter, key in enumerate(freqdict.keys()):
         #auto threshold
         auto_threshold=1
         try:   
-            threshold=(max(spec_savgol[xmin_index:xmax_index])
-                +abs(min(spec_savgol[xmin_index:xmax_index])))*threshold_factor
+            threshold=(max(spec_filtered[xmin_index:xmax_index])
+                +abs(min(spec_filtered[xmin_index:xmax_index])))*threshold_factor
         except ValueError:
             print('Warning! xmin or xmax are out of range or (almost) equal.')
     
-    peaks , _ = find_peaks(spec_savgol[xmin_index:xmax_index],height=threshold,distance=peak_distance)
+    peaks , _ = find_peaks(spec_filtered[xmin_index:xmax_index],height=threshold,distance=peak_distance)
     peakz = [freqdict[key][xmin_index:xmax_index][peak] for peak in peaks]
     
     for index, txt in enumerate(peakz):
-        ax.annotate(int(np.round(txt)),xy=(txt,spec_savgol[xmin_index:xmax_index][peaks[index]]),ha="center",rotation=90,size=6,
+        ax.annotate(int(np.round(txt)),xy=(txt,spec_filtered[xmin_index:xmax_index][peaks[index]]),ha="center",rotation=90,size=6,
             xytext=(0,5), textcoords='offset points')
     
     try:    
-        ymax=max(spec_savgol[xmin_index:xmax_index])
-        ymin=min(spec_savgol[xmin_index:xmax_index])
+        ymax=max(spec_filtered[xmin_index:xmax_index])
+        ymin=min(spec_filtered[xmin_index:xmax_index])
         ax.set_ylim(ymin-ymax*0.05,ymax+ymax*0.10)
     except ValueError:
         print('Warning! xmin or xmax are out of range or (almost) equal.')
@@ -507,7 +562,7 @@ for counter, key in enumerate(freqdict.keys()):
     if save_dat:
         try:
             with open(key + "-mod.dat","w") as output_file:
-                for (wn, intens) in zip(freqdict[key][xmin_index:xmax_index],spec_savgol[xmin_index:xmax_index]):
+                for (wn, intens) in zip(freqdict[key][xmin_index:xmax_index],spec_filtered[xmin_index:xmax_index]):
                     output_file.write("{:.3f}".format(wn) + dat_delimiter + "{:.2f}".format(intens) +'\n')    
         #file not found -> exit here
         except IOError:

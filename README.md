@@ -48,7 +48,7 @@ On the following page(s):
 - `filename` , required: filename(s), input file(s) in the format `wavenumber [space] intensity`
 - `-l` `N`, optional: the lambda parameter for the arPLS algorithm (default is `N = 1000`)
 - `-p` `N:M`, optional: invokes the Savitzky–Golay filter, `N:M` are the window length and polynomial order of the Savitzky–Golay filter 
-- `-w` `N`,  optional: he lambda parameter for the Whittaker filter (default is `N = 1`)
+- `-w` `N`,  optional: the lambda parameter for the Whittaker filter (default is `N = 1`)
 - `-xmin` `N` , optional: start spectra at `N` wave numbers
 - `-xmax` `N` , optional: end spectra at `N` wave numbers
 - `-t` `N` , optional: threshold for peak detection, with `N` being the intensity (default is 5% from the maximum intensity)

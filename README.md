@@ -5,9 +5,7 @@ If you use the arPLS algorithm to process your spectra, please cite:
 
 > "Baseline correction using asymmetrically reweighted penalized least squares smoothing"
 > 
-> Sung-June Baek, Aaron Park, Young-Jin Ahna, Jaebum Choo  
-> 
-> *Analyst*, **2015**, *140*, 250-257
+> Sung-June Baek, Aaron Park, Young-Jin Ahna, Jaebum Choo, *Analyst* **2015**, *140*, 250-257
 > 
 > DOI:	https://doi.org/10.1039/C4AN01061B
 
@@ -15,9 +13,7 @@ The Whittaker algorithm is adapted from:
 
 > "A perfect smoother"
 > 
-> Paul H. C. Eilers 
-> 
-> Anal. Chem. 2003, 75, 3631-3636
+> Paul H. C. Eilers, *Anal. Chem.* **2003**, *75*, 3631-3636
 > 
 > DOI https://doi.org/10.1021/ac03417
 
@@ -25,9 +21,7 @@ which is based on:
 
 >"On a new method of gradutation"
 >
->E. T. Whittaker
->
->Proceedings of the Edinburgh Mathematical Society 1922, 41, 63-75
+>E. T. Whittaker, *Proceedings of the Edinburgh Mathematical Society* **1922**, *41*, 63-75
 >
 >DOI: https://doi.org/10.1017/S0013091500077853
 

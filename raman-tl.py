@@ -11,14 +11,14 @@ DOI	https://doi.org/10.1039/C4AN01061B
 https://stackoverflow.com/questions/29156532/python-baseline-correction-library
 Daniel Casas-Orozco
 
-# open more than one datat set under windows: 
-open powershell: baseline.py (Get-ChildItem *.txt -Name)
-
 # Whittaker filter / smoothing adapted from several sources based on:
 "A perfect smoother"
 Paul H. C. Eilers 
 Anal. Chem. 2003, 75, 3631-3636
 DOI https://doi.org/10.1021/ac034173t
+
+# open more than one datat set under windows: 
+open powershell: baseline.py (Get-ChildItem *.txt -Name)
 
 '''
 

@@ -1,5 +1,5 @@
 # raman-tl.py
-A Python 3 script for baseline correction, smoothing, processing and plotting of Raman spectra. Data must be in the format `wavenumber [space] intensity`. The baseline correction uses the *asymmetrically reweighted penalized least squares smoothing algorithm* (arPLS). The [Savitzky–Golay](https://en.wikipedia.org/wiki/Savitzky–Golay_filter) filter is applied for smoothing. Data of the processed spectra can be saved as "csv"-like data files in the format `wavenumber [delimiter] intensity`. Plots can be saved as PNG bitmap files and as PDF.
+A Python 3 script for baseline correction, smoothing, processing and plotting of Raman spectra. Data must be in the format `wavenumber [space] intensity`. The baseline correction uses the *asymmetrically reweighted penalized least squares smoothing algorithm* (arPLS). The Whittaker filter is (by default) applied for smoothing. Optionally, the [Savitzky–Golay](https://en.wikipedia.org/wiki/Savitzky–Golay_filter) filter can be used. Data of the processed spectra can be saved as "csv"-like data files in the format `wavenumber [delimiter] intensity`. Plots can be saved as PNG bitmap files and as PDF.
 
 If you use the arPLS algorithm to process your spectra, please cite:
 
@@ -47,7 +47,8 @@ On the following page(s):
 ## Command-line options
 - `filename` , required: filename(s), input file(s) in the format `wavenumber [space] intensity`
 - `-l` `N`, optional: the lambda parameter for the arPLS algorithm (default is `N = 1000`)
-- `-p` `N:M`, optional: window length and polynomial order of the Savitzky–Golay filter (default is `N = 5, M = 3`)
+- `-p` `N:M`, optional: invokes the Savitzky–Golay filter, `N:M` are the window length and polynomial order of the Savitzky–Golay filter 
+- `-w` `N`,  optional: he lambda parameter for the Whittaker filter (default is `N = 1`)
 - `-xmin` `N` , optional: start spectra at `N` wave numbers
 - `-xmax` `N` , optional: end spectra at `N` wave numbers
 - `-t` `N` , optional: threshold for peak detection, with `N` being the intensity (default is 5% from the maximum intensity)
@@ -59,7 +60,7 @@ On the following page(s):
 
 ## Remarks
 - The save values for `lambda` start from 1000. Smaller values will give sharper peaks, but broader peaks become part of the baseline. Check the red baseline curve in the summary page.
-- There is no way to turn off the smoothing filter directly, but with two parameters close together, e.g. `-p3:2`, filtering is ineffective. 
+- There is no way to turn off smoothing directly, but with two Savitzky-Golay parameters close together, e.g. `-p3:2`, Whittaker filtering is turned off and the Savitzky–Golay filter is ineffective. 
 - The window length for the Savitzky–Golay filter must be an odd number and the window length must be greater than the polynomial order.
 - Polynomial based filters, such as the Savitzky–Golay filter, sometimes tend to overshoot in negative regions, especially with sharp signals in the Raman spectrum. Reduce the filtering (see above) is one way to solve this problem. 
 - `xmin` and or `xmax` values outside the experimental wave number range will result in errors or strange outputs.

@@ -60,7 +60,7 @@ On the following page(s):
 
 ## Remarks
 - The save values for the arPLS parameter `lambda` start from 1000. Smaller values will give sharper peaks, but broader peaks become part of the baseline. Check the red baseline curve in the summary page.
-- There is no way to turn off smoothing directly, but with two Savitzky-Golay parameters close together, e.g. `-p3:2`, the Whittaker filtering is turned off and the Savitzky–Golay filter is ineffective. 
+- There is no way to turn off smoothing directly, but with two Savitzky-Golay parameters close together, e.g. `-p3:2` or a Whittaker parameter `-w0.01` filtering is ineffective. 
 - The window length for the Savitzky–Golay filter must be an odd number and the window length must be greater than the polynomial order.
 - Polynomial based filters, such as the Savitzky–Golay filter, sometimes tend to overshoot in negative regions, especially with sharp signals in the Raman spectrum. Reduce the filtering (see above) is one way to solve this problem. 
 - `xmin` and or `xmax` values outside the experimental wave number range will result in errors or strange outputs.

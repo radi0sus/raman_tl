@@ -109,9 +109,9 @@ Single spectra:
 
 ### Example 2
 ```console
-python3 raman-tl.py sample-A.txt -l10000 -p7:4 -xmin 600 -xmax 800 -t50 -spd 
+python3 raman-tl.py sample-A.txt -xmin 600 -xmax 800 -spd 
 ```
-Process spectrum `sample-A.txt` with `lambda = 10000` (baseline parameter), `window length = 7` and `polynomial order = 4` (smoothing parameters) in the range from `xmin = 600` to `xmax = 800` cm<sup>-1</sup>, annotate peaks with intensities equal or greater than `t = 50` and save the PNG and DATA files (`-spd`).
+Process spectrum `sample-A.txt` in the range from `xmin = 600` to `xmax = 800` cm<sup>-1</sup> and save the PNG and DATA files (`-spd`).
 
 Summary:
 
@@ -120,3 +120,9 @@ Summary:
 Single spectrum:
 
 <img src="/examples/sample-A3.png" width=600>
+
+### Example 3
+```console
+python3 raman-tl.py sample-A.txt -l10000 -p7:4 -xmin 600 -xmax 800 -t50 -spd 
+```
+Process spectrum `sample-A.txt` with `lambda = 10000` (baseline parameter), `window length = 7` and `polynomial order = 4` (smoothing parameters) in the range from `xmin = 600` to `xmax = 800` cm<sup>-1</sup>, annotate peaks with intensities equal or greater than `t = 50` and save the PNG and DATA files (`-spd`).

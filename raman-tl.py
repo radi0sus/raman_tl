@@ -272,7 +272,7 @@ if multiply:
 
 #add or subtract x to wave numbers if argument is given
 if add:
-    print("Warning. The '-a' option can change your results completely. Use it with extra care.")
+    print("Warning! The '-a' option can change your results completely. Use it with extra care.")
     for key in freqdict.keys():
         freqdict[key]=add_x_to_freq(freqdict[key],add)
 
@@ -322,7 +322,7 @@ if len(freqdict) == 1:
         #filter baseline corrected spectrum, savgol parameters wl & po or whittaker lambda
         if args.wp:
             spec_filtered=savgol_filter(spec_baseline_corr,wl,po)
-            lbl = 'Savitzky-Golay\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
+            lbl = 'smoothed data\n' + 'Savitzky-Golay filter\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
         elif args.whittaker:
             spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
             lbl = 'Whittaker\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
@@ -419,13 +419,13 @@ else:
         #filter baseline corrected spectrum, savgol parameters wl & po or whittaker lambda
         if args.wp:
             spec_filtered=savgol_filter(spec_baseline_corr,wl,po)
-            lbl = 'Savitzky-Golay\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
+            lbl = 'smoothed data\n' + 'Savitzky-Golay filter\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
         elif args.whittaker:
             spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
-            lbl = 'Whittaker\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
+            lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
         else:
             spec_filtered=whittaker(spec_baseline_corr,lmd=1)
-            lbl = 'Whittaker\n' + r'$\lambda$ = 1'
+            lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = 1'
         
     
         #plot baseline corrected, filtered spectrum - take care of xmin & xmax
@@ -509,13 +509,13 @@ for counter, key in enumerate(freqdict.keys()):
     #filter baseline corrected spectrum, savgol parameters wl & po or whittaker lambda
     if args.wp:
         spec_filtered=savgol_filter(spec_baseline_corr,wl,po)
-        lbl = 'Savitzky-Golay\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
+        #lbl = 'smoothed data\n' + 'Savitzky-Golay filter\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
     elif args.whittaker:
         spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
-        lbl = 'Whittaker\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
+        #lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
     else:
         spec_filtered=whittaker(spec_baseline_corr,lmd=1)
-        lbl = 'Whittaker\n' + r'$\lambda$ = 1'
+        #lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = 1'
     
     ax.plot(freqdict[key][xmin_index:xmax_index],spec_filtered[xmin_index:xmax_index],color='black',linewidth=1,
         label=lbl)

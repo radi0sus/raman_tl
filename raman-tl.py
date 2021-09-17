@@ -272,7 +272,7 @@ if multiply:
 
 #add or subtract x to wave numbers if argument is given
 if add:
-    print('Warning. The -a option can change your results completely. Use it with extra care.')
+    print("Warning. The '-a' option can change your results completely. Use it with extra care.")
     for key in freqdict.keys():
         freqdict[key]=add_x_to_freq(freqdict[key],add)
 

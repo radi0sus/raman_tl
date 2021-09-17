@@ -104,8 +104,8 @@ Summary:
 
 Single spectra:
 
-<img src="/examples/sample-A2.png" width=600>
-<img src="/examples/sample-B2n.png" width=600>
+<img src="/examples/sample-A2.png" width=650>
+<img src="/examples/sample-B2n.png" width=650>
 
 ### Example 2
 ```console
@@ -133,4 +133,4 @@ Summary:
 
 Single spectrum:
 
-<img src="/examples/sample-A4.png" width=600>
+<img src="/examples/sample-A4.png" width=650>

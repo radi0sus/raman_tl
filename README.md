@@ -115,8 +115,8 @@ Process spectrum `sample-A.txt` with `lambda = 10000` (baseline parameter), `win
 
 Summary:
 
-<img src="/examples/summary-3.png" width=600>
+<img src="/examples/summary3.png" width=600>
 
 Single spectrum:
 
-<img src="/examples/sample-A-3.png" width=600>
+<img src="/examples/sample-A3.png" width=600>

@@ -50,7 +50,7 @@ to process all files with the extension  `.txt` in the folder.
 
 In all cases a file `summary.pdf` will be created which contains the following plots:
 
-On the first page:
+On the first page (from top to bottom):
 - raw spectrum with baseline plot (red)
 - baseline corrected spectrum
 - smoothed / filtered spectrum with peak annotation 

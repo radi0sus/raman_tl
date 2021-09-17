@@ -84,7 +84,7 @@ On the following page(s):
 - The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
 
 ## Examples
-![show](/examples/show-use3.gif)
+![show](/examples/show-use4.gif)
 
 Remember, under Windows you have to open `PowerShell` first and start the script with:
 ```console
@@ -100,12 +100,12 @@ Process all files starting with `s` and the extension `.txt`.
 
 Summary:
 
-<img src="/examples/summary2.png" width=600>
+<img src="/examples/summary2n.png" width=600>
 
 Single spectra:
 
-<img src="/examples/sample-A.png" width=600>
-<img src="/examples/sample-B2.png" width=600>
+<img src="/examples/sample-A2.png" width=600>
+<img src="/examples/sample-B2n.png" width=600>
 
 ### Example 2
 ```console

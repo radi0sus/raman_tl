@@ -119,7 +119,7 @@ Summary:
 
 Single spectrum:
 
-<img src="/examples/sample-A3.png" width=700>
+<img src="/examples/sample-A3.png" width=650>
 
 ### Example 3
 ```console

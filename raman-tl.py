@@ -325,10 +325,10 @@ if len(freqdict) == 1:
             lbl = 'smoothed data\n' + 'Savitzky-Golay filter\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
         elif args.whittaker:
             spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
-            lbl = 'Whittaker\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
+            lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
         else:
             spec_filtered=whittaker(spec_baseline_corr,lmd=1)
-            lbl = 'Whittaker\n' + r'$\lambda$ = 1'
+            lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = 1'
             
         #plot baseline corrected, filtered spectrum - take care of xmin & xmax
         ax[2].plot(freqdict[key][xmin_index:xmax_index],spec_filtered[xmin_index:xmax_index],color='black',linewidth=1,

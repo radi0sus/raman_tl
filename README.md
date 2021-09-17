@@ -15,7 +15,7 @@ The Whittaker algorithm is adapted from:
 > 
 > Paul H. C. Eilers, *Anal. Chem.* **2003**, *75*, 3631-3636
 > 
-> DOI https://doi.org/10.1021/ac03417
+> DOI https://doi.org/10.1021/ac034173t
 
 which is based on:
 

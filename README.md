@@ -100,7 +100,7 @@ Process all files starting with `s` and the extension `.txt`.
 
 Summary:
 
-<img src="/examples/summary2n.png" width=600>
+<img src="/examples/summary2n.png" width=800>
 
 Single spectra:
 

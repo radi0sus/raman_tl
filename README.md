@@ -87,6 +87,11 @@ On the following page(s):
 - The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
 - The files `summary.pdf`, `summary.png`, `overlay.png`, `overlay-normalized.png` will be overwritten every time the script is started (with respective options) in the same directory. Single spectra with the same filenames will be overwritten as well. You should rename them if you want to keep them. 
 
+## Known issues
+- Some of the peaks that are close together are not annotated. To change this you can reduce the `peak_distance` in the script which is `peak_distance = 8` by default.
+- Peaks annotations could be overprinted by other peak annotations in the overlay spectrum. There is no workaround for this. If annotations are at the same position one can remove the comment from the instruction below `#no dupes` in the script, than only one annotation is shown. 
+- The legend covers part of the spectrum. If this is an issue one can change the position of the legend in the script or prevent the legend from beeing printed at the spectrum.
+
 ## Examples
 ![show](/examples/show-use4.gif)
 

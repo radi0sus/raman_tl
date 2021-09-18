@@ -57,6 +57,7 @@ On the first page (from top to bottom):
 
 On the following page(s):
 - smoothed / filtered spectrum with peak annotation 
+- not normalized and normalized overlay spectra if the `-o` option was invoked
 
 ## Command-line options
 - `filename` , required: filename(s), input file(s) in the format `wavenumber [space] intensity`

@@ -152,8 +152,8 @@ Process spectra `sample-A.txt` and `sample-B.txt` in the range from `xmin = 200`
 
 Overlay spectrum (not normalized):
 
-<img src="/examples/overlay.png" width=650>
+<img src="/examples/overlay.png" width=700>
 
 Overlay spectrum (normalized):
 
-<img src="/examples/overlay-normalized.png" width=650>
+<img src="/examples/overlay-normalized.png" width=700>

@@ -85,12 +85,12 @@ On the following page(s):
 - The  `.dat` file contains the data of the processed spectrum in the given range as it is shown in the plot for the single spectrum.
 - The `-o` option invokes overlay plots (normalized and not normalized) of all processed spectra. Normalized means, that the intensities are divided by the maximium intensity in the given intensity range. The maximum intensity becomes unity. The peak detection threshold for the normalized spectrum is 0.05.
 - The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
-- The files `summary.pdf`, `summary.png`, `overlay.png`, `overlay-normalized.png` will be overwritten every time the script is started (with respective options) in the same directory. Single spectra with the same filenames will be overwritten as well. You should rename them if you want to keep them. 
+- The files `summary.pdf`, `summary.png`, `overlay.png`, `overlay-normalized.png` will be overwritten every time the script is started (with respective options) in the same directory. Single spectra with the same filenames will be overwritten as well. Rename them if you want to keep them. 
 
 ## Known issues
-- Some of the peaks that are close together are not annotated. To change this you can reduce the `peak_distance` in the script which is `peak_distance = 8` by default.
-- Peaks annotations could be overprinted by other peak annotations in the overlay spectrum. There is no workaround for this. If annotations are at the same position one can remove the comment from the instruction below `#no dupes` in the script, than only one annotation is shown. 
-- The legend covers part of the spectrum. If this is an issue one can change the position of the legend in the script or prevent the legend from beeing printed at the spectrum.
+- Some of the peaks that are close together are not annotated. To change this, one can reduce the `peak_distance` in the script, which is by default `peak_distance = 8`.
+- Peak annotations can be overprinted by other peak annotations in the overlay spectrum. There is no workaround for this. If annotations are in the same position, you can remove the comment in the instruction under `#no dupes` in the script, than only one annotation is displayed. 
+- The legend obscures part of the spectrum. If this is a problem, one can change the position of the legend in the script or prevent the legend from being printed at the spectrum.
 
 ## Examples
 ![show](/examples/show-use4.gif)

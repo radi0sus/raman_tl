@@ -1,5 +1,5 @@
 # raman-tl.py
-A Python 3 script for baseline correction, smoothing, processing and plotting of Raman spectra. Data must be in the format `wavenumber [space] intensity`. The baseline correction uses the *asymmetrically reweighted penalized least squares smoothing algorithm* (arPLS). The Whittaker filter is (by default) applied for smoothing. Optionally, the [Savitzky–Golay](https://en.wikipedia.org/wiki/Savitzky–Golay_filter) filter can be used. Data of the processed spectra can be saved as "csv"-like data files in the format `wavenumber [delimiter] intensity`. Plots can be saved as PNG bitmap files and as PDF.
+A Python 3 script for baseline correction, smoothing, processing and plotting of Raman spectra. Data must be in the format `wavenumber [space] intensity`. The baseline correction uses the *asymmetrically reweighted penalized least squares smoothing algorithm* (arPLS). The Whittaker filter is (by default) applied for smoothing. Optionally, the [Savitzky–Golay](https://en.wikipedia.org/wiki/Savitzky–Golay_filter) filter can be used. Data of the processed spectra can be saved as "csv"-like data files in the format `wavenumber [delimiter] intensity`. An overlay spectrum (normalized and not normalized) of all processed spectra can be plotted. Plots can be saved as PNG bitmap files and as PDF. 
 
 If you use the arPLS algorithm to process your spectra, please cite:
 
@@ -69,6 +69,7 @@ On the following page(s):
 - `-m` `N` , optional: multiply intensities with `N` (default is `N = 1`)
 - `-a` `N` , optional: add or subtract `N` to / from wave numbers (default is `N = 0`)
 - `-i` `N` , optional: add or subtract `N` to / from intensities (default is `N = 0`)
+- `-o` , optional: show the normalized and not normalized overlay spectrum 
 - `-n` , optional: do not save `summary.pdf`
 - `-s` `p,d` , optional: save P(NG) and / or D(ATA) files. The filenames are `filename.png` and / or `filename-mod.dat`. Data files are in the format `wavenumber [delimiter] intensity`. The delimiter can be set in the script. The default delimiter is [space].
 
@@ -80,7 +81,8 @@ On the following page(s):
 - `xmin` and or `xmax` values outside the experimental wave number range will result in errors or strange outputs.
 - `-a` changes the range for `xmin` and `xmax`
 - `-i` and `-m` change the range for  `-t` 
-- The  `.dat` file contains the data of the processed spectrum in the given range as it is shown in the last plot.
+- The  `.dat` file contains the data of the processed spectrum in the given range as it is shown in the plot for the single spectrum.
+- The `-o` option invokes overlay plots (normalized and not normalized) of all processed spectra. Normalized means that the intensities are divided by the maximium intensity found in the given intensity range. The maximum intensity becomes one.
 - The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
 
 ## Examples

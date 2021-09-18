@@ -647,6 +647,9 @@ else:
 peaks , _ = find_peaks(spec_filtered_all,height=threshold,distance=peak_distance)
 peakz = [freq_all[peak] for peak in peaks]
 
+#no dupes
+#peakz = [x for n, x in enumerate(peakz) if x not in peakz[:n]]
+
 for index, txt in enumerate(peakz):
     ax.annotate(int(np.round(txt)),xy=(txt,spec_filtered_all[peaks[index]]),ha="center",rotation=90,size=6,
         xytext=(0,5), textcoords='offset points')    
@@ -664,7 +667,7 @@ ax.set_ylim(ax.get_ylim()[0],ax.get_ylim()[1]*0.05+ax.get_ylim()[1])
 ax.set_xlabel(x_label)
 ax.set_ylabel(y_label)
 ax.set_title('overlay spectrum (not normalized)')
-ax.legend(loc='best',fontsize='8')
+ax.legend(loc='upper left',fontsize='8')
 
 #save overlay plot png
 if save_plots_png and overlay:
@@ -725,6 +728,9 @@ for counter, key in enumerate(freqdict.keys()):
 peaks , _ = find_peaks(spec_filtered_all,height=normalized_height,distance=peak_distance)
 peakz = [freq_all[peak] for peak in peaks]
 
+#no dupes
+#peakz = [x for n, x in enumerate(peakz) if x not in peakz[:n]]
+
 for index, txt in enumerate(peakz):
     ax.annotate(int(np.round(txt)),xy=(txt,spec_filtered_all[peaks[index]]),ha="center",rotation=90,size=6,
         xytext=(0,5), textcoords='offset points')    
@@ -742,7 +748,7 @@ ax.set_ylim(ax.get_ylim()[0],ax.get_ylim()[1]*0.05+ax.get_ylim()[1])
 ax.set_xlabel(x_label)
 ax.set_ylabel(y_label)
 ax.set_title('overlay spectrum (normalized)')
-ax.legend(loc='best',fontsize='8')
+ax.legend(loc='upper left',fontsize='8')
 
 #save overlay plot normalized png
 if save_plots_png and overlay:

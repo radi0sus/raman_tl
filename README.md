@@ -82,7 +82,7 @@ On the following page(s):
 - `-a` changes the range for `xmin` and `xmax`
 - `-i` and `-m` change the range for  `-t` 
 - The  `.dat` file contains the data of the processed spectrum in the given range as it is shown in the plot for the single spectrum.
-- The `-o` option invokes overlay plots (normalized and not normalized) of all processed spectra. Normalized means, that the intensities are divided by the maximium intensity in the given intensity range. The maximum intensity becomes one. The peak detection threshold for the normalized spectrum is 0.05.
+- The `-o` option invokes overlay plots (normalized and not normalized) of all processed spectra. Normalized means, that the intensities are divided by the maximium intensity in the given intensity range. The maximum intensity becomes unity. The peak detection threshold for the normalized spectrum is 0.05.
 - The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
 - The files `summary.pdf`, `summary.png`, `overlay.png`, `overlay-normalized.png` will be overwritten every time the script is started (with rescpective options) in the same directory. You should rename them if you want to keep them. 
 

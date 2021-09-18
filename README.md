@@ -9,7 +9,7 @@ If you use the arPLS algorithm to process your spectra, please cite:
 > 
 > DOI:	https://doi.org/10.1039/C4AN01061B
 
-The Whittaker algorithm is adapted from (sometimes also referred to as Whittaker-Eilers smoother):
+The Whittaker algorithm (sometimes also referred to as Whittaker-Eilers smoother) is adapted from:
 
 > "A perfect smoother"
 > 

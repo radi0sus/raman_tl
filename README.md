@@ -89,7 +89,7 @@ On the following page(s):
 
 ## Known issues
 - Some of the peaks that are close together are not annotated. To change this, one can reduce the `peak_distance` in the script, which is by default `peak_distance = 8`.
-- Peak annotations can be overprinted by other peak annotations in the overlay spectrum. There is no workaround for this. If annotations are in the same position, you can remove the comment in the instruction under `#no dupes` in the script, than only one annotation is displayed. 
+- Peak annotations can be overprinted by other peak annotations in the overlay spectrum. There is no workaround for this. If annotations are in the same position, you can remove the comment in the instruction under `#no dupes` in the script, then only one annotation is displayed. 
 - The legend obscures part of the spectrum. If this is a problem, one can change the position of the legend in the script or prevent the legend from being printed at the spectrum.
 
 ## Examples

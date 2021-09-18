@@ -47,6 +47,7 @@ from matplotlib.backends.backend_pdf import PdfPages    #save summary as PDF
 intensities = 0                             #add 0 to intensities
 auto_threshold = 0                          #check if auto threshold was activated
 threshold_factor = 0.05                     #threshold factor for auto peak detection
+normalized_height=0.05                      #threshold for peak detection in the normalized overlay spectra
 peak_distance = 8                           #peak distance for peak detection
 arpls_ratio = 1e-6                          #ratio for arPLS
 lam = 1000                                  #lamda for the arPLS baseline correction
@@ -55,7 +56,7 @@ n_iter = 200                                #number of iterations for arPLS
 # plot and data output config section 
 y_label = "intensity"                       #label of y-axis 
 x_label = r'raman shift /cm$^{-1}$'         #label of the x-axis 
-figure_dpi = 300                            #DPI of the picture
+figure_dpi = 150                            #DPI of the picture
 save_plots_png = False                      #save PNGs
 save_dat = False                            #save data file 
 dat_delimiter = " "                         #separator character for data export - "csv"
@@ -629,8 +630,10 @@ for counter, key in enumerate(freqdict.keys()):
         label=key)
         
     #for peak detection, combine them all
-    spec_filtered_all=np.concatenate((spec_filtered_all,spec_filtered)) 
-    freq_all = freq_all + freqdict[key]
+    #spec_filtered_all=np.concatenate((spec_filtered_all,spec_filtered)) 
+    #freq_all = freq_all + freqdict[key]
+    spec_filtered_all=np.concatenate((spec_filtered_all,spec_filtered[xmin_index:xmax_index]))
+    freq_all = freq_all + freqdict[key][xmin_index:xmax_index]
 
 #peak detection for overlayed spectra
 #peak detection threshold
@@ -718,9 +721,8 @@ for counter, key in enumerate(freqdict.keys()):
     spec_filtered_all=np.concatenate((spec_filtered_all,spec_filtered[xmin_index:xmax_index]/max(spec_filtered[xmin_index:xmax_index])))
     freq_all = freq_all + freqdict[key][xmin_index:xmax_index]
     
-#peak detection for overlayed normalized spectra, height is 5%
-    
-peaks , _ = find_peaks(spec_filtered_all,height=0.05,distance=peak_distance)
+#peak detection for overlayed normalized spectra, height is normalized_height (5%)
+peaks , _ = find_peaks(spec_filtered_all,height=normalized_height,distance=peak_distance)
 peakz = [freq_all[peak] for peak in peaks]
 
 for index, txt in enumerate(peakz):
@@ -753,3 +755,4 @@ if save_pdf and overlay:
 #close summary.pdf
 if save_pdf:
     pdf.close()
+    

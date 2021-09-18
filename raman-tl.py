@@ -194,7 +194,7 @@ parser.add_argument('-i','--intensities',
 #overlay spectra
 parser.add_argument('-o','--overlay',
     default=0, action='store_true',
-    help='overlay spectra')
+    help='plot (normalized) overlay spectra')
 
 #do not save the pdf
 parser.add_argument('-n','--nosave',

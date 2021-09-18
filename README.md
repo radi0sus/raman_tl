@@ -148,7 +148,7 @@ Single spectrum:
 ```console
 python3 raman-tl.py sample-A.txt sample-B.txt -o -xmin 200 -xmax 1100 -sp
 ```
-Process spectra `sample-A.txt` and `sample-B.txt` in the range from `xmin = 200` to `xmax = 1100` cm<sup>-1</sup>, plot the overlay spectra `-o` and save the PNG files (`-sp`).
+Process spectra `sample-A.txt` and `sample-B.txt` in the range from `xmin = 200` to `xmax = 1100` cm<sup>-1</sup>, plot the overlay spectra (`-o`) and save the PNG files (`-sp`).
 
 Overlay spectrum (not normalized):
 

@@ -145,8 +145,8 @@ Process spectra `s*.txt` in the range from `xmin = 200` to `xmax = 1100` cm<sup>
 
 Overlay spectrum (not normalized):
 
-<img src="/examples/overlay.png" width=600>
+<img src="/examples/overlay.png" width=650>
 
 Overlay spectrum (normalized):
 
-<img src="/examples/overlay-normalized.png" width=600>
+<img src="/examples/overlay-normalized.png" width=650>

@@ -82,7 +82,7 @@ On the following page(s):
 - `-a` changes the range for `xmin` and `xmax`
 - `-i` and `-m` change the range for  `-t` 
 - The  `.dat` file contains the data of the processed spectrum in the given range as it is shown in the plot for the single spectrum.
-- The `-o` option invokes overlay plots (normalized and not normalized) of all processed spectra. Normalized means that the intensities are divided by the maximium intensity found in the given intensity range. The maximum intensity becomes one.
+- The `-o` option invokes overlay plots (normalized and not normalized) of all processed spectra. Normalized means that the intensities are divided by the maximium intensity found in the given intensity range. The maximum intensity becomes one. Threshold for the normalized spectrum is fixed at 0.05.
 - The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
 
 ## Examples
@@ -136,3 +136,17 @@ Summary:
 Single spectrum:
 
 <img src="/examples/sample-A4.png" width=650>
+
+### Example 4
+```console
+python3 raman-tl.py s*.txt -o -xmin 200 -xmax 1100 -sp
+```
+Process spectra `s*.txt` in the range from `xmin = 200` to `xmax = 1100` cm<sup>-1</sup>, plot the overlay spectra `-o` and save the PNG files (`-sp`).
+
+Overlay spectrum (not normalized):
+
+<img src="/examples/overlay.png" width=600>
+
+Overlay spectrum (normalized):
+
+<img src="/examples/overlay-normalized.png" width=600>

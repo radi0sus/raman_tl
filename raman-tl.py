@@ -191,6 +191,11 @@ parser.add_argument('-i','--intensities',
     help='add or subtract i to intensities\n' +
     'take care of peak detection')
 
+#overlay spectra
+parser.add_argument('-o','--overlay',
+    default=0, action='store_true',
+    help='overlay spectra')
+
 #do not save the pdf
 parser.add_argument('-n','--nosave',
     default=1, action='store_false',
@@ -234,6 +239,9 @@ add = args.add
 
 #if True save summary.pdf
 save_pdf = args.nosave
+
+#show overlay spectrum
+overlay = args.overlay
 
 #check for p or P (png) or d or D (dat) in argument
 #save PNGs and DAT data if True
@@ -578,7 +586,170 @@ for counter, key in enumerate(freqdict.keys()):
 #show the plot(s)
 #plt.show()
             
+#close plots
+plt.close('all')
+
+#################################
+#overlay spectra  not normalized
+fig, ax = plt.subplots()
+
+spec_filtered_all=list()
+freq_all=list()
+
+#overlay spectra - not normalized
+for counter, key in enumerate(freqdict.keys()):
+    #same as above
+    
+    if xmin:
+        xmin_index = min(range(len(freqdict[key])), key=lambda i: abs(freqdict[key][i]-xmin)) # index closest to xmin
+    else:
+        xmin_index=0
+    if xmax:
+        xmax_index = min(range(len(freqdict[key])), key=lambda i: abs(freqdict[key][i]-xmax)) # index closest to xmax 
+    else:
+        xmax_index=-1
+        
+    spec_baseline_corr = intensdict[key] - baseline_arPLS(intensdict[key],lam=lam)
+    
+    if args.intensities:
+        spec_baseline_corr = add_y_to_intens(spec_baseline_corr, args.intensities)
+        
+    #filter baseline corrected spectrum, savgol parameters wl & po or whittaker lambda
+    if args.wp:
+        spec_filtered=savgol_filter(spec_baseline_corr,wl,po)
+        #lbl = 'smoothed data\n' + 'Savitzky-Golay filter\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
+    elif args.whittaker:
+        spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
+        #lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
+    else:
+        spec_filtered=whittaker(spec_baseline_corr,lmd=1)
+        #lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = 1'
+    
+    ax.plot(freqdict[key][xmin_index:xmax_index],spec_filtered[xmin_index:xmax_index],linewidth=1,
+        label=key)
+        
+    #for peak detection, combine them all
+    spec_filtered_all=np.concatenate((spec_filtered_all,spec_filtered)) 
+    freq_all = freq_all + freqdict[key]
+
+#peak detection for overlayed spectra
+#peak detection threshold
+if threshold != None and auto_threshold == 0:
+    threshold=abs(threshold)
+else:
+    #auto threshold
+    auto_threshold=1
+    threshold=(max(spec_filtered_all)+abs(min(spec_filtered_all)))*threshold_factor
+        
+peaks , _ = find_peaks(spec_filtered_all,height=threshold,distance=peak_distance)
+peakz = [freq_all[peak] for peak in peaks]
+
+for index, txt in enumerate(peakz):
+    ax.annotate(int(np.round(txt)),xy=(txt,spec_filtered_all[peaks[index]]),ha="center",rotation=90,size=6,
+        xytext=(0,5), textcoords='offset points')    
+    
+#increase figure size N x M     
+N = 1.5
+M = 1.5
+params = plt.gcf()
+plSize = params.get_size_inches()
+params.set_size_inches((plSize[0]*N, plSize[1]*M))
+
+#+5% in y
+ax.set_ylim(ax.get_ylim()[0],ax.get_ylim()[1]*0.05+ax.get_ylim()[1]) 
+
+ax.set_xlabel(x_label)
+ax.set_ylabel(y_label)
+ax.set_title('overlay spectrum (not normalized)')
+ax.legend(loc='best',fontsize='8')
+
+#save overlay plot png
+if save_plots_png and overlay:
+    plt.savefig("overlay.png", dpi=figure_dpi)
+
+#save overlay plot pdf
+if save_pdf and overlay:
+    pdf.savefig()
+
+#close plots
+plt.close('all')
+
+#############################
+#overlay spectra - normalized
+fig, ax = plt.subplots()
+
+#reset the lists
+spec_filtered_all=list()
+freq_all=list()
+
+for counter, key in enumerate(freqdict.keys()):
+    #same as above
+    
+    if xmin:
+        xmin_index = min(range(len(freqdict[key])), key=lambda i: abs(freqdict[key][i]-xmin)) # index closest to xmin
+    else:
+        xmin_index=0
+    if xmax:
+        xmax_index = min(range(len(freqdict[key])), key=lambda i: abs(freqdict[key][i]-xmax)) # index closest to xmax 
+    else:
+        xmax_index=-1
+        
+    spec_baseline_corr = intensdict[key] - baseline_arPLS(intensdict[key],lam=lam)
+    
+    if args.intensities:
+        spec_baseline_corr = add_y_to_intens(spec_baseline_corr, args.intensities)
+        
+    #filter baseline corrected spectrum, savgol parameters wl & po or whittaker lambda
+    if args.wp:
+        spec_filtered=savgol_filter(spec_baseline_corr,wl,po)
+        #lbl = 'smoothed data\n' + 'Savitzky-Golay filter\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
+    elif args.whittaker:
+        spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
+        #lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
+    else:
+        spec_filtered=whittaker(spec_baseline_corr,lmd=1)
+        #lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = 1'
+        
+    #normalize plots    
+    ax.plot(freqdict[key][xmin_index:xmax_index],spec_filtered[xmin_index:xmax_index]/max(spec_filtered[xmin_index:xmax_index]),linewidth=1,
+        label=key)
+    
+    #for peak detection, combine them all, normalized
+    spec_filtered_all=np.concatenate((spec_filtered_all,spec_filtered[xmin_index:xmax_index]/max(spec_filtered[xmin_index:xmax_index])))
+    freq_all = freq_all + freqdict[key][xmin_index:xmax_index]
+    
+#peak detection for overlayed normalized spectra, height is 5%
+    
+peaks , _ = find_peaks(spec_filtered_all,height=0.05,distance=peak_distance)
+peakz = [freq_all[peak] for peak in peaks]
+
+for index, txt in enumerate(peakz):
+    ax.annotate(int(np.round(txt)),xy=(txt,spec_filtered_all[peaks[index]]),ha="center",rotation=90,size=6,
+        xytext=(0,5), textcoords='offset points')    
+    
+#increase figure size N x M     
+N = 1.5
+M = 1.5
+params = plt.gcf()
+plSize = params.get_size_inches()
+params.set_size_inches((plSize[0]*N, plSize[1]*M))
+
+#+5% in y
+ax.set_ylim(ax.get_ylim()[0],ax.get_ylim()[1]*0.05+ax.get_ylim()[1]) 
+
+ax.set_xlabel(x_label)
+ax.set_ylabel(y_label)
+ax.set_title('overlay spectrum (normalized)')
+ax.legend(loc='best',fontsize='8')
+
+#save overlay plot normalized png
+if save_plots_png and overlay:
+    plt.savefig("overlay-normalized.png", dpi=figure_dpi)
+
+#save overlay plot normalized pdf
+if save_pdf and overlay:
+    pdf.savefig()
+    
 #close summary.pdf
 if save_pdf:
     pdf.close()
-    

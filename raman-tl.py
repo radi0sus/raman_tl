@@ -1,11 +1,13 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 '''
 
 # for arPLS baseline correction, please cite:
 "Baseline correction using asymmetrically reweighted penalized least squares smoothing"
 Sung-June Baek, Aaron Park, Young-Jin Ahna, Jaebum Choo  
 Analyst 2015, 140, 250-257
-DOI	https://doi.org/10.1039/C4AN01061B
+DOI: https://doi.org/10.1039/C4AN01061B
 
 # python adaption based on the code example from:
 https://stackoverflow.com/questions/29156532/python-baseline-correction-library
@@ -15,7 +17,7 @@ Daniel Casas-Orozco
 "A perfect smoother"
 Paul H. C. Eilers 
 Anal. Chem. 2003, 75, 3631-3636
-DOI https://doi.org/10.1021/ac034173t
+DOI: https://doi.org/10.1021/ac034173t
 
 # Whittaker paper 
 "On a new method of gradutation"
@@ -28,16 +30,16 @@ open powershell: baseline.py (Get-ChildItem *.txt -Name)
 
 '''
 
-import sys                                              #sys files processing
+import sys                                              #sys 
 import os                                               #os file processing
 import argparse                                         #argument parser
-import numpy as np                                      #summation
-import matplotlib.pyplot as plt                         #plots
-from scipy.signal import find_peaks                     #peak detection
-from scipy import sparse                                #for arPLS
-from scipy.sparse import linalg                         #for arPLS
-from numpy.linalg import norm                           #for arPLS
+import numpy as np                                      #for several calculations
+import matplotlib.pyplot as plt                         #for plots
+from scipy.signal import find_peaks                     #for peak detection
+from scipy import sparse                                #for arPLS and Whittaker
+from scipy.sparse import linalg                         #for arPLS and Whittaker
 from scipy.special import expit                         #for arPLS
+#from numpy.linalg import norm                          #for arPLS
 from scipy.signal import savgol_filter                  #Savitzky–Golay filter 
 from matplotlib.backends.backend_pdf import PdfPages    #save summary as PDF
 
@@ -84,7 +86,7 @@ def baseline_arPLS(y, ratio=arpls_ratio, lam=lam, niter=n_iter):
         m = np.mean(dn)
         s = np.std(dn)        
         w_new = expit(-2 * (d - (2*s - m))/s)
-        crit = norm(w_new - w) / norm(w)        
+        crit = np.linalg.norm(w_new - w) / np.linalg.norm(w)        
         w = w_new
         W.setdiag(w)         
         count += 1        
@@ -94,6 +96,9 @@ def baseline_arPLS(y, ratio=arpls_ratio, lam=lam, niter=n_iter):
 
 #Whittaker filter (smoothing)
 def whittaker(y,lmd = 2, d = 2):
+    #lmd: smoothing parameter lamda,
+    #the suggested value of lamda = 1600 seems way to much for Raman spectra
+    #d: order of differences in penalty (2)
     L = len(y)
     E = sparse.csc_matrix(np.diff(np.eye(L), d))
     W = sparse.spdiags(np.ones(L), 0, L, L)
@@ -583,7 +588,7 @@ for counter, key in enumerate(freqdict.keys()):
         except IOError:
             print("Write error. Exit.")
             sys.exit(1)
-
+    
 #show the plot(s)
 #plt.show()
             
@@ -761,4 +766,3 @@ if save_pdf and overlay:
 #close summary.pdf
 if save_pdf:
     pdf.close()
-    

@@ -50,6 +50,7 @@ intensities = 0                             #add 0 to intensities
 auto_threshold = 0                          #check if auto threshold was activated
 threshold_factor = 0.05                     #threshold factor for auto peak detection
 normalized_height=0.05                      #threshold for peak detection in the normalized overlay spectra
+head_space_y_o_s =0.10                      #head space for legend (in %) for overlay and stacked spectra 
 peak_distance = 8                           #peak distance for peak detection
 arpls_ratio = 1e-6                          #ratio for arPLS
 lam = 1000                                  #lamda for the arPLS baseline correction
@@ -200,7 +201,7 @@ parser.add_argument('-i','--intensities',
 #overlay spectra
 parser.add_argument('-o','--overlay',
     default=0, action='store_true',
-    help='plot (normalized) overlay spectra')
+    help='plot (normalized) overlay and normalized stacked spectra')
 
 #do not save the pdf
 parser.add_argument('-n','--nosave',
@@ -246,7 +247,7 @@ add = args.add
 #if True save summary.pdf
 save_pdf = args.nosave
 
-#show overlay spectrum
+#show overlay and stacked spectra
 overlay = args.overlay
 
 #check for p or P (png) or d or D (dat) in argument
@@ -502,7 +503,7 @@ if save_plots_png:
 #show the summary plot
 plt.show()
 
-for counter, key in enumerate(freqdict.keys()):
+for key in freqdict.keys():
     #same as above, but for single spectra and saving data 
     fig, ax = plt.subplots()
     
@@ -596,14 +597,14 @@ for counter, key in enumerate(freqdict.keys()):
 plt.close('all')
 
 #################################
-#overlay spectra  not normalized
+#overlay spectra - not normalized
 fig, ax = plt.subplots()
 
 spec_filtered_all=list()
 freq_all=list()
 
 #overlay spectra - not normalized
-for counter, key in enumerate(freqdict.keys()):
+for key in freqdict.keys():
     #same as above
     
     if xmin:
@@ -648,7 +649,7 @@ else:
     #auto threshold
     auto_threshold=1
     threshold=(max(spec_filtered_all)+abs(min(spec_filtered_all)))*threshold_factor
-        
+    
 peaks , _ = find_peaks(spec_filtered_all,height=threshold,distance=peak_distance)
 peakz = [freq_all[peak] for peak in peaks]
 
@@ -666,8 +667,8 @@ params = plt.gcf()
 plSize = params.get_size_inches()
 params.set_size_inches((plSize[0]*N, plSize[1]*M))
 
-#+5% in y
-ax.set_ylim(ax.get_ylim()[0],ax.get_ylim()[1]*0.05+ax.get_ylim()[1]) 
+#+x% in y
+ax.set_ylim(ax.get_ylim()[0],ax.get_ylim()[1]*head_space_y_o_s+ax.get_ylim()[1]) 
 
 ax.set_xlabel(x_label)
 ax.set_ylabel(y_label)
@@ -693,7 +694,7 @@ fig, ax = plt.subplots()
 spec_filtered_all=list()
 freq_all=list()
 
-for counter, key in enumerate(freqdict.keys()):
+for key in freqdict.keys():
     #same as above
     
     if xmin:
@@ -747,8 +748,8 @@ params = plt.gcf()
 plSize = params.get_size_inches()
 params.set_size_inches((plSize[0]*N, plSize[1]*M))
 
-#+5% in y
-ax.set_ylim(ax.get_ylim()[0],ax.get_ylim()[1]*0.05+ax.get_ylim()[1]) 
+#+x% in y
+ax.set_ylim(ax.get_ylim()[0],ax.get_ylim()[1]*head_space_y_o_s+ax.get_ylim()[1]) 
 
 ax.set_xlabel(x_label)
 ax.set_ylabel(y_label)
@@ -762,7 +763,90 @@ if save_plots_png and overlay:
 #save overlay plot normalized pdf
 if save_pdf and overlay:
     pdf.savefig()
+
+#close plots
+plt.close('all')
+
+#############################
+#stacked spectra - normalized
+fig, ax = plt.subplots()
+
+#reset the lists
+spec_filtered_all=list()
+freq_all=list()
+
+for counter, key in enumerate(freqdict.keys()):
+    #same as above
     
+    if xmin:
+        xmin_index = min(range(len(freqdict[key])), key=lambda i: abs(freqdict[key][i]-xmin)) # index closest to xmin
+    else:
+        xmin_index=0
+    if xmax:
+        xmax_index = min(range(len(freqdict[key])), key=lambda i: abs(freqdict[key][i]-xmax)) # index closest to xmax 
+    else:
+        xmax_index=-1
+        
+    spec_baseline_corr = intensdict[key] - baseline_arPLS(intensdict[key],lam=lam)
+    
+    if args.intensities:
+        spec_baseline_corr = add_y_to_intens(spec_baseline_corr, args.intensities)
+        
+    #filter baseline corrected spectrum, savgol parameters wl & po or whittaker lambda
+    if args.wp:
+        spec_filtered=savgol_filter(spec_baseline_corr,wl,po)
+        #lbl = 'smoothed data\n' + 'Savitzky-Golay filter\n' + 'window-length = '+ str(wl) + '\npoly-order = ' + str (po)
+    elif args.whittaker:
+        spec_filtered=whittaker(spec_baseline_corr,lmd=whittaker_lmd)
+        #lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = '+ str(whittaker_lmd) 
+    else:
+        spec_filtered=whittaker(spec_baseline_corr,lmd=1)
+        #lbl = 'smoothed data\n' + 'Whittaker filter\n' + r'$\lambda$ = 1'
+        
+    #normalize plots, add counter (+1) + some space for stacking
+    ax.plot(freqdict[key][xmin_index:xmax_index],add_y_to_intens((spec_filtered[xmin_index:xmax_index]/max(spec_filtered[xmin_index:xmax_index])+counter),counter*0.3),linewidth=1,
+        label=key)
+    
+    #for peak detection, combine them all, normalized + stacked
+    spec_filtered_all=np.concatenate((spec_filtered_all,add_y_to_intens((spec_filtered[xmin_index:xmax_index]/max(spec_filtered[xmin_index:xmax_index])+counter),counter*0.3)))
+    freq_all = freq_all + freqdict[key][xmin_index:xmax_index]
+    
+    #peak detection for overlayed normalized spectra, height is normalized_height (5%) + stacking head-space
+    peaks , _ = find_peaks(spec_filtered_all,height=normalized_height+counter+counter*0.3,distance=peak_distance)
+    peakz = [freq_all[peak] for peak in peaks]
+    
+    #no dupes
+    #peakz = [x for n, x in enumerate(peakz) if x not in peakz[:n]]
+    
+    for index, txt in enumerate(peakz):
+        ax.annotate(int(np.round(txt)),xy=(txt,spec_filtered_all[peaks[index]]),ha="center",rotation=90,size=6,
+            xytext=(0,5), textcoords='offset points')    
+        
+#increase figure size N x M     
+N = 1.5
+M = 1.5
+params = plt.gcf()
+plSize = params.get_size_inches()
+params.set_size_inches((plSize[0]*N, plSize[1]*M))
+
+#+x% in y
+ax.set_ylim(ax.get_ylim()[0],ax.get_ylim()[1]*head_space_y_o_s+ax.get_ylim()[1]) 
+
+ax.set_yticks([])
+ax.set_xlabel(x_label)
+ax.set_ylabel(y_label)
+ax.set_title('stacked spectrum (normalized)')
+ax.legend(loc='upper left',fontsize='8')
+
+#save stacked plot png
+if save_plots_png and overlay:
+    plt.savefig("stacked-normalized.png", dpi=figure_dpi)
+    
+#save stacked plot pdf
+if save_pdf and overlay:
+    pdf.savefig()
+
 #close summary.pdf
 if save_pdf:
     pdf.close()
+    

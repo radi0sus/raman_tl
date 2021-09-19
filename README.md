@@ -57,7 +57,7 @@ On the first page (from top to bottom):
 
 On the following page(s):
 - smoothed / filtered spectrum with peak annotation 
-- not normalized and normalized overlay spectra if the `-o` option was invoked
+- not normalized and normalized overlay spectra and normalized stacked spectra if the `-o` option was invoked
 
 ## Command-line options
 - `filename` , required: filename(s), input file(s) in the format `wavenumber [space] intensity`
@@ -70,7 +70,7 @@ On the following page(s):
 - `-m` `N` , optional: multiply intensities with `N` (default is `N = 1`)
 - `-a` `N` , optional: add or subtract `N` to / from wave numbers (default is `N = 0`)
 - `-i` `N` , optional: add or subtract `N` to / from intensities (default is `N = 0`)
-- `-o` , optional: show the normalized and not normalized overlay spectrum 
+- `-o` , optional: show the normalized and not normalized overlay spectrum and the normalized stacked spectrum
 - `-n` , optional: do not save `summary.pdf`
 - `-s` `p,d` , optional: save P(NG) and / or D(ATA) files. The filenames are `filename.png` and / or `filename-mod.dat`. Data files are in the format `wavenumber [delimiter] intensity`. The delimiter can be set in the script. The default delimiter is [space].
 
@@ -83,7 +83,7 @@ On the following page(s):
 - `-a` changes the range for `xmin` and `xmax`
 - `-i` and `-m` change the range for  `-t` 
 - The  `.dat` file contains the data of the processed spectrum in the given range as it is shown in the plot for the single spectrum.
-- The `-o` option invokes overlay plots (normalized and not normalized) of all processed spectra. Normalized means, that the intensities are divided by the maximium intensity in the given intensity range. The maximum intensity becomes unity. The peak detection threshold for the normalized spectrum is 0.05.
+- The `-o` option invokes the overlay plots (normalized and not normalized) and the normalized stacked plot of all processed spectra. Normalized means, that the intensities are divided by the maximium intensity in the given intensity range. The maximum intensity becomes unity. The peak detection threshold for the normalized spectrum is 0.05.
 - The delimiter  in the `.dat` file can be changed in the script: `dat_delimiter = " "` or `dat_delimiter = " ; "` for example.
 - The files `summary.pdf`, `summary.png`, `overlay.png`, `overlay-normalized.png` will be overwritten every time the script is started (with respective options) in the same directory. Single spectra with the same filenames will be overwritten as well. Rename them if you want to keep them. 
 
@@ -148,7 +148,7 @@ Single spectrum:
 ```console
 python3 raman-tl.py sample-A.txt sample-B.txt -o -xmin 200 -xmax 1100 -sp
 ```
-Process spectra `sample-A.txt` and `sample-B.txt` in the range from `xmin = 200` to `xmax = 1100` cm<sup>-1</sup>, plot the overlay spectra (`-o`) and save the PNG files (`-sp`).
+Process spectra `sample-A.txt` and `sample-B.txt` in the range from `xmin = 200` to `xmax = 1100` cm<sup>-1</sup>, plot the overlay and stacked spectra (`-o`) and save the PNG files (`-sp`).
 
 Overlay spectrum (not normalized):
 
@@ -157,3 +157,7 @@ Overlay spectrum (not normalized):
 Overlay spectrum (normalized):
 
 <img src="/examples/overlay-normalized.png" width=700>
+
+Stacked spectrum (normalized):
+
+<img src="/examples/stacked-normalized.png" width=700>

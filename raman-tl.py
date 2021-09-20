@@ -42,6 +42,7 @@ from scipy.special import expit                         #for arPLS
 #from numpy.linalg import norm                          #for arPLS
 from scipy.signal import savgol_filter                  #Savitzky–Golay filter 
 from matplotlib.backends.backend_pdf import PdfPages    #save summary as PDF
+from datetime import datetime                           #print date and time in plot
 
 # global constants
 #wl = 5                                     #window length for the Savitzky–Golay filter (filtering /smoothing)
@@ -49,7 +50,7 @@ from matplotlib.backends.backend_pdf import PdfPages    #save summary as PDF
 intensities = 0                             #add 0 to intensities
 auto_threshold = 0                          #check if auto threshold was activated
 threshold_factor = 0.05                     #threshold factor for auto peak detection
-normalized_height=0.05                      #threshold for peak detection in the normalized overlay spectra
+normalized_height=0.05                      #threshold for peak detection in the normalized overlay and stacked spectra
 head_space_y_o_s =0.10                      #head space for legend (in %) for overlay and stacked spectra 
 peak_distance = 8                           #peak distance for peak detection
 arpls_ratio = 1e-6                          #ratio for arPLS
@@ -299,7 +300,7 @@ if save_pdf:
 if len(freqdict) == 1:
     
     #prepare plot
-    fig, ax = plt.subplots(3,constrained_layout=True)
+    fig, ax = plt.subplots(3,tight_layout=True)
     
     #get key (name) of spectra and counter - not necessary for only one data set
     for counter, key in enumerate(freqdict.keys()):
@@ -391,8 +392,7 @@ else:
     #get number of data sets
     number_of_files=len(freqdict)
     #prepare plot
-    fig, ax = plt.subplots(3,len(freqdict),constrained_layout=True)
-    
+    fig, ax = plt.subplots(3,len(freqdict),tight_layout = True)
     #get key (name) of spectra and counter 
     for counter, key in enumerate(freqdict.keys()):
         #change font size according to the number of spectra
@@ -483,8 +483,11 @@ else:
             ax[2,counter].set_ylim(ymin-ymax*0.05,ymax+ymax*0.15)
         except ValueError:
             print('Warning! xmin or xmax are out of range or (almost) equal.')
-        
 
+#instructions for the plots
+fig.text(0.01,0.005,str(sys.argv).replace(","," ").replace("'","").replace("[", "").replace("]",""), color='blue', size=6)
+#short disclaimer and link
+fig.text(0.01,0.99, str(datetime.now().strftime("%d-%b-%Y %H:%M:%S")) + " -- " + 'data processed with raman-tl.py, use the script at your own risk and responsibility (click here for more information)', color = 'red', size=6, url='https://github.com/radi0sus/raman_tl')
 
 #increase figure size N (number of data sets) x M 
 N = len(freqdict)

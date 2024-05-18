@@ -93,7 +93,7 @@ On the following page(s):
 - Some of the peaks that are close together are not annotated. To change this, one can reduce the `peak_distance` in the script, which is by default `peak_distance = 8`.
 - Peak annotations can be overprinted by other peak annotations in the overlay spectrum. There is no workaround for this. If annotations are in the same position, one can uncomment the instruction under `#no dupes` in the script, then only one annotation is displayed. 
 - The legend obscures part of the spectrum. If this is a problem, one can change the position of the legend in the script or prevent the legend from being printed at the spectrum (try to change `head_space_y_o_s` in the script for the overlay and stacked spectra).
-- Recent versions of matplotlib and Python may encounter an issue where the plot window appears empty. As a temporary solution, resizing the window seems to resolve the problem. This issue is currently unresolved: https://github.com/matplotlib/matplotlib/issues/25768
+- Recent versions of Matplotlib and Python may encounter an issue where the plot window appears empty. As a temporary solution, resizing the window seems to solve the problem. This issue is currently unresolved: https://github.com/matplotlib/matplotlib/issues/25768. However, with Matplotlib version 3.9.0, everything functions as expected.
 
 ## Examples
 ![show](/examples/show-use4.gif)
